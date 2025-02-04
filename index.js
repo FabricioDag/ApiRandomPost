@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
+const cors = require("cors");
+
+app.use(cors()); // Habilita CORS para todas as origens
+
 // Criando 30 posts de exemplo
 const posts = Array.from({ length: 30 }, (v, i) => ({
   id: i + 1,
