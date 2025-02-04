@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000; // Porta dinâmica
+const port = process.env.PORT || 3000;
 
+// Criando 30 posts de exemplo
 const posts = Array.from({ length: 30 }, (v, i) => ({
   id: i + 1,
   content: `Este é o post número ${i + 1}!`,
@@ -11,8 +12,17 @@ const posts = Array.from({ length: 30 }, (v, i) => ({
   saves: Math.floor(Math.random() * 10),
 }));
 
+// Função para embaralhar os posts
+const shuffleArray = (array, count) => {
+  const shuffled = [...array].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+};
+
+// Rota para buscar posts aleatórios
 app.get('/api/posts', (req, res) => {
-  res.json(posts);
+  const { limit = 10 } = req.query;
+  const randomPosts = shuffleArray(posts, parseInt(limit));
+  res.json({ data: randomPosts });
 });
 
 app.listen(port, () => {
